@@ -6,6 +6,7 @@
 #include<ctype.h>
 #include<time.h>
 #include<unistd.h>
+#include<time.h>
 
 typedef int bool;
 #define true 1
@@ -24,6 +25,11 @@ void Sort(int* a,char** b, int dim);	//FUNZIONE PER ORDINARE IN BASE ALLE FREQUE
 void CSV(int* a, char** b,int dim);		//FUNZIONE PER SALVARE IL CONTEGGIO DELLE PAROLE IN UN FILE CSV
 
 int main(int argc, char**argv) {
+
+	//VARIABILI PER TEMPO DI ESECUZIONE
+	clock_t start,end;
+	double tempo;
+	start = clock();
 
 
 	//VARIABILI E INIZIALIZZAZIONE MPI//
@@ -125,7 +131,13 @@ int main(int argc, char**argv) {
 	
 	//FUNZIONE CHE CONTA LE PAROLE NEI FILE 
 	wordCount(countParola,parola,&size,inizioByte,fineByte,indiceInizioFile,fileDaLeggere,myrank,p);
-	
+
+	MPI_Barrier(MPI_COMM_WORLD);
+	end = clock();
+	tempo=((double)(end-start))/CLOCKS_PER_SEC;
+	if(myrank==0){	printf("tempo %f secondi\n",tempo);}
+	fflush(stdout);
+
 	MPI_Finalize();
 
 }
@@ -327,9 +339,11 @@ void wordCount(int *countParola, char** parola, int* size,int inizioByte,int fin
 			//ORDINAMENTO PER FREQUENZA
 			Sort(countFinalWord,matrixFinalWord,dimensione);
 			CSV(countFinalWord,matrixFinalWord,dimensione);
-			for(int j = 0;j<dimensione;j++) {
+			printf("WORD COUNT TERMINATO\n");
+			fflush(stdout);
+			/*for(int j = 0;j<dimensione;j++) {
 				printf("COM word: %s, count: %d\n",matrixFinalWord[j],countFinalWord[j]);
-			}
+			}*/
 		
 	}
 	
@@ -343,7 +357,7 @@ void wordCount(int *countParola, char** parola, int* size,int inizioByte,int fin
 	for(int i = 0;i<(bufSizeRecv/charInt);i++) {
 		free(matrixWord[i]);	
 	}
-	printf("buffer%d\n",bufSizeRecv);
+	//printf("buffer%d\n",bufSizeRecv);
 	
 }
 
