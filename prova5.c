@@ -44,7 +44,7 @@ int main(int argc, char**argv) {
 	DIR* dir;
 	struct dirent* Dirent;
 	FILE* file;
-	dir = opendir("fileProva2"); 		//APRE DIRECTORY 
+	dir = opendir("file"); 		//APRE DIRECTORY 
 	int sommabyte = 0; 			//VARIABILE PER LA SOMMA TOTALE IN BYTE DI TUTTI I FILE 
 	fileS* fileDaLeggere; 			// DICHIARAZIONE STRUCT PER FILE DA LEGGERE 
 	int count = 0;				//CONTATORE PER NUMERO DI FILE IN DIRECTORY 
@@ -71,7 +71,7 @@ int main(int argc, char**argv) {
 		while((Dirent=readdir(dir))!=NULL) { 			//CICLO PER LEGGERE OGNI FILE DELLA DIRECTORY E CALCOLARE LA RELATIVA DIMENSIONE IN BYTE
 			//printf("file : %s tipo %d \n",Dirent->d_name,Dirent->d_type);
 			if(Dirent->d_type==8) {
-				char stringa[100] ="fileProva2/";
+				char stringa[100] ="file/";
 				strcpy(fileDaLeggere[count].nome,stringa);
 				strcat(fileDaLeggere[count].nome,Dirent->d_name);
 				//printf("%s\n",fileDaLeggere[count].nome);
