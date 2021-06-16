@@ -26,6 +26,8 @@ void CSV(int* a, char** b,int dim);		//FUNZIONE PER SALVARE IL CONTEGGIO DELLE P
 
 int main(int argc, char**argv) {
 
+    int numFileDaLeg=atoi(argv[1]);
+    
 	//VARIABILI PER TEMPO DI ESECUZIONE
 	clock_t start,end;
 	double tempo;
@@ -44,7 +46,7 @@ int main(int argc, char**argv) {
 	DIR* dir;
 	struct dirent* Dirent;
 	FILE* file;
-	dir = opendir("file"); 		//APRE DIRECTORY 
+	dir = opendir("fileweak"); 		//APRE DIRECTORY 
 	int sommabyte = 0; 			//VARIABILE PER LA SOMMA TOTALE IN BYTE DI TUTTI I FILE 
 	fileS* fileDaLeggere; 			// DICHIARAZIONE STRUCT PER FILE DA LEGGERE 
 	int count = 0;				//CONTATORE PER NUMERO DI FILE IN DIRECTORY 
@@ -68,10 +70,10 @@ int main(int argc, char**argv) {
 			
 		seekdir(dir,0);
 		count = 0;
-		while((Dirent=readdir(dir))!=NULL) { 			//CICLO PER LEGGERE OGNI FILE DELLA DIRECTORY E CALCOLARE LA RELATIVA DIMENSIONE IN BYTE
+		while((Dirent=readdir(dir))!=NULL && numFileDaLeg>0) { //CICLO PER LEGGERE OGNI FILE DELLA DIRECTORY E CALCOLARE LA RELATIVA DIMENSIONE IN BYTE
 			//printf("file : %s tipo %d \n",Dirent->d_name,Dirent->d_type);
 			if(Dirent->d_type==8) {
-				char stringa[100] ="file/";
+				char stringa[100] ="fileweak/";
 				strcpy(fileDaLeggere[count].nome,stringa);
 				strcat(fileDaLeggere[count].nome,Dirent->d_name);
 				//printf("%s\n",fileDaLeggere[count].nome);
@@ -81,7 +83,8 @@ int main(int argc, char**argv) {
 					fileDaLeggere[count].dimensioneByte = ftell(file);
 					count++;
 					fseek(file,0L,SEEK_SET);
-					fclose(file);	
+					fclose(file);
+                    numFileDaLeg--;	
 				}
 			}
 			
