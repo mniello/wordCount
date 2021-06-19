@@ -29,9 +29,7 @@ int main(int argc, char**argv) {
     int numFileDaLeg=atoi(argv[1]);
     
 	//VARIABILI PER TEMPO DI ESECUZIONE
-	clock_t start,end;
-	double tempo;
-	start = clock();
+	double start,end;
 
 
 	//VARIABILI E INIZIALIZZAZIONE MPI//
@@ -40,7 +38,7 @@ int main(int argc, char**argv) {
 	MPI_Status status;
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 	MPI_Comm_size(MPI_COMM_WORLD, &p);
-
+	start = MPI_Wtime();
 
 
 	DIR* dir;
@@ -136,9 +134,8 @@ int main(int argc, char**argv) {
 	wordCount(countParola,parola,&size,inizioByte,fineByte,indiceInizioFile,fileDaLeggere,myrank,p);
 
 	MPI_Barrier(MPI_COMM_WORLD);
-	end = clock();
-	tempo=((double)(end-start))/CLOCKS_PER_SEC;
-	if(myrank==0){	printf("tempo %f secondi\n",tempo);}
+	end = MPI_Wtime();
+	if(myrank==0){	printf("tempo %f secondi\n",end-start);}
 	fflush(stdout);
 
 	MPI_Finalize();
