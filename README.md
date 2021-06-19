@@ -19,9 +19,7 @@ Viene proposta una soluzione in un ambiente distribuito, verranno quindi descrit
 int main(int argc, char**argv) {
 
 	//VARIABILI PER TEMPO DI ESECUZIONE
-	clock_t start,end;
-	double tempo;
-	start = clock();
+	double start,end;
 
 
 	//VARIABILI E INIZIALIZZAZIONE MPI//
@@ -30,6 +28,7 @@ int main(int argc, char**argv) {
 	MPI_Status status;
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 	MPI_Comm_size(MPI_COMM_WORLD, &p);
+	start = MPI_Wtime();
 
 
 
